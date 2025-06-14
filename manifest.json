@@ -1,0 +1,39 @@
+{
+    "manifest_version": 3,
+    "name": "CTDO Auto Search",
+    "version": "1.0",
+    "description": "Tự động tìm kiếm thông minh dựa trên lịch sử duyệt web - Phát triển bởi CTDOTEAM",
+    "permissions": [
+      "history",
+      "storage",
+      "tabs",
+      "scripting",
+      "sidePanel"
+    ],
+    "host_permissions": [
+      "https://www.bing.com/*",
+      "https://generativelanguage.googleapis.com/*"
+    ],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+      }
+    },
+    "side_panel": {
+      "default_path": "popup.html"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "icons": {
+      "16": "images/icon16.png",
+      "48": "images/icon48.png",
+      "128": "images/icon128.png"
+    },
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+    }
+  } 

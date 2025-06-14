@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>CTDO Auto Search</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      min-height: 100vh;
+      min-width: 240px;
+      width: 100vw;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .center-container {
+      width: 100%;
+      max-width: 340px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.18em;
+      letter-spacing: 0.5px;
+      color: #0078d4;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      justify-content: center;
+    }
+    .icon {
+      width: 26px;
+      height: 26px;
+      vertical-align: middle;
+    }
+    .section {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px #0001;
+      padding: 10px 10px 8px 10px;
+      margin-bottom: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .section-title {
+      font-weight: 700;
+      color: #0078d4;
+      margin-bottom: 7px;
+      font-size: 1em;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.97em;
+      color: #333;
+    }
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+      border: 1.2px solid #b3c6e0;
+      border-radius: 6px;
+      font-size: 0.97em;
+      background: #f4f8ff;
+      transition: border 0.2s;
+      box-sizing: border-box;
+    }
+    input[type="text"]:focus, input[type="number"]:focus {
+      border: 1.5px solid #0078d4;
+      outline: none;
+    }
+    .config-btn, .action-btn {
+      width: 100%;
+      padding: 8px 0;
+      background: linear-gradient(90deg, #0078d4 60%, #00c6fb 100%);
+      color: #fff;
+      font-size: 0.98em;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-bottom: 7px;
+      transition: background 0.2s;
+      box-shadow: 0 1px 4px #0078d41a;
+    }
+    .config-btn:active, .action-btn:active {
+      background: #106ebe;
+    }
+    .action-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 8px;
+      justify-content: center;
+    }
+    .action-btn {
+      flex: 1;
+      margin-bottom: 0;
+      min-width: 0;
+    }
+    #searchNow {
+      margin-top: 2px;
+      margin-bottom: 7px;
+    }
+    #log {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 7px 6px;
+      min-height: 48px;
+      max-height: 110px;
+      overflow-y: auto;
+      font-size: 0.96em;
+      color: #333;
+      margin-bottom: 6px;
+      white-space: pre-line;
+      transition: background 0.2s;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.92em;
+      color: #888;
+      margin-top: 7px;
+    }
+    .stat {
+      font-size: 0.98em;
+      color: #0078d4;
+      font-weight: 600;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+    .contact-info {
+      font-size: 0.9em;
+      color: #666;
+      text-align: center;
+      margin-top: 5px;
+    }
+    .contact-info a {
+      color: #0078d4;
+      text-decoration: none;
+    }
+    .contact-info a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="center-container">
+    <h2><img src="images/icon48.png" class="icon" alt="icon"> CTDO Auto Search</h2>
+    <div class="section">
+      <div class="section-title">Cấu hình tiện ích</div>
+      <label for="apikey">API Key Gemini</label>
+      <input type="text" id="apikey" placeholder="Nhập Gemini API Key...">
+      <label for="minDelay">Thời gian chờ tối thiểu (giây)</label>
+      <input type="number" id="minDelay" min="1" max="1000" value="10">
+      <label for="maxDelay">Thời gian chờ tối đa (giây)</label>
+      <input type="number" id="maxDelay" min="1" max="1000" value="60">
+      <button class="config-btn" id="saveConfig">Lưu cấu hình</button>
+    </div>
+    <div class="section">
+      <div class="section-title">Thao tác</div>
+      <div class="action-row">
+        <button class="action-btn" id="searchNow">Tìm kiếm ngay</button>
+        <button class="action-btn" id="stopBtn">Dừng</button>
+        <button class="action-btn" id="clearLogBtn">Xóa log</button>
+      </div>
+      <div class="stat" id="statistic">Đang tải thống kê...</div>
+      <div id="log">Sẵn sàng.</div>
+    </div>
+    <div class="contact-info">
+      <div>📧 <a href="mailto:ctdoteam@gmail.com">ctdoteam@gmail.com</a></div>
+      <div>📱 <a href="https://t.me/ctdotech" target="_blank">t.me/ctdotech</a></div>
+      <div>📺 <a href="https://youtube.com/@thanhdo1110" target="_blank">@thanhdo1110</a></div>
+      <div>💻 <a href="https://github.com/thanhdo1110" target="_blank">thanhdo1110</a></div>
+    </div>
+    <div class="footer">© 2025 CTDOTEAM - CTDO Auto Search</div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html> 
